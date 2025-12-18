@@ -17,27 +17,25 @@ class App(customtkinter.CTk): #moja klasa dziedziczy po klasie CTk
         #dalsze ustawienia sa moje
         self.title("To-Do app")
         self.geometry("1200x800")
-        self.grid_columnconfigure((0,1), weight=1)
+        self.grid_columnconfigure(0, weight=1)
+        self.grid_rowconfigure(0, weight=1)
 
-        #tworze zmienna title_font jako definicje czcionki tytulu bo inaczej jebnie
-        self.title_font = customtkinter.CTkFont(weight="bold", size=24)
-      
+        #frames
+        self.checkbox_frame = customtkinter.CTkFrame(self)
+        self.checkbox_frame.grid(row=1, column=0, padx=10, pady=(10, 10), sticky="nsw", rowspan=3)
 
-        #tytul
-        self.title_label=customtkinter.CTkLabel(self, text="TO-DO APP",font=self.title_font)
-        #miejsce tytulu
-        self.title_label.grid(row=0, column=0, padx=20, pady=20, columnspan=2) #columnspan = 2 przesunelo na srodek
+
+        #ckeckboxy
+        self.checkbox_1 = customtkinter.CTkCheckBox(self, text="checkbox 1")
+        self.checkbox_1.grid(row=0, column=0, padx=10, pady=(10, 0), sticky="w") #w to west czyli bedzie tylko po lewej
+        self.checkbox_2 = customtkinter.CTkCheckBox(self, text="checkbox 2")
+        self.checkbox_2.grid(row=1, column=0, padx=10, pady=(10, 0), sticky="w")
 
         #teraz przycisk
         #dodajac self przycisk staje sie wlasnoscia calego obiektu, nie jest sprzatany z pamieci pozniej
         self.button = customtkinter.CTkButton(self, text="my button", command=self.button_callback) 
-        self.button.grid(row=1, column=0, padx=20, pady=20, sticky="ew", columnspan=2) #ew to east/west wiec sie rozciagnie sie od lewej do prawej
+        self.button.grid(row=0, column=0, padx=10, pady=10, sticky="n", columnspan=2) #ew to east/west wiec sie rozciagnie sie od lewej do prawej
 
-        #ckeckboxy
-        self.checkbox_1 = customtkinter.CTkCheckBox(self, text="checkbox 1")
-        self.checkbox_1.grid(row=2, column=0, padx=20, pady=(0,20), sticky="w") #w to west czyli bedzie tylko po lewej
-        self.checkbox_2 = customtkinter.CTkCheckBox(self, text="checkbox 2")
-        self.checkbox_2.grid(row=3, column=0, padx=20, pady=(0,20), sticky="w")
 
     #funkcja dla przycisku
     def button_callback(self):
