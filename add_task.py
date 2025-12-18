@@ -23,7 +23,7 @@ def add_task_Ui():
         dialog_date=customtkinter.CTkInputDialog(text="Wpisz date ukończenia zadania (w formacie DD-MM-YYYY",title="Data")
         text_date=dialog_date.get_input()
         text_date.strip()
-        if re.search("((0[1-9])|1[0-9]|2[0-9]|3[0-1])-((0[1-9])|1[0-2])-[0-9]{4}",text_tresc):
+        if re.search("((0[1-9])|1[0-9]|2[0-9]|3[0-1])-((0[1-9])|1[0-2])-[0-9]{4}",text_date):
             break
 
     text_date.split("-")
