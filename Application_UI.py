@@ -8,12 +8,6 @@ import read_the_data
 import customtkinter
 import add_task
 
-
-import os
-
-
-
-
 #kod przerobiony na klasy 
 class App(customtkinter.CTk): #moja klasa dziedziczy po klasie CTk
     def __init__(self): #konstruktor i tam sie ustawia parametry jka tworze obiekt swojej klasy
@@ -21,54 +15,48 @@ class App(customtkinter.CTk): #moja klasa dziedziczy po klasie CTk
         #i ta linijka wyzej uruchamia kod startowy biblioteki, a pozniej dodaje moje ustawienia
 
         
-        #dalsze ustawienia 
+        #glowne okno
         self.title("To-Do app")
-        self.geometry("1200x800")
-       
-       #siatka dynamiczna - zmieniajcie jak chcecie
-        self.grid_columnconfigure((0,1,2), weight=1) #dla kolumn 1,2,3 waga = 1 czyli kolumna zabierze cala wolna przestrzen
-        self.grid_rowconfigure((0,1,2), weight=1)
+        self.geometry("800x360")
 
+        #grid 
+        #kolumny
+        self.grid_columnconfigure((0,1,2), weight=1)
+
+        self.grid_rowconfigure(0, weight=0)#weight=0 zeby nie zajmowal zbyt duzo tytul
+        self.grid_rowconfigure(1, weight=0)#kolejne wiersze
+        self.grid_rowconfigure(2, weight=0)
+
+        #frame
+        self.tasks=customtkinter.CTkFrame(self, width=150, fg_color="slate gray")
+        self.tasks.grid(row=0, column=0, rowspan=3, sticky="nsew")
+        #czcionka
+        self.title_label=customtkinter.CTkLabel(self, text="TO-DO APP", font=("Arial", 24, "bold"), fg_color="transparent", text_color="DeepSkyBlue3")
+        self.title_label.grid(row=0, column=1, padx=10, pady=10, sticky="n")
+        #siatka dynamiczna - zmieniajcie jak chcecie
+        self.grid_columnconfigure(0, weight=0) #dla kolumn 1,2,3 waga = 1 czyli kolumna zabierze cala wolna przestrzen
+        self.grid_rowconfigure(1, weight=1)
+        
         #przycisk dodaj
         self.add_button=customtkinter.CTkButton(self, text="Dodaj Zadanie",command=self.add_task_action)
-        self.add_button.grid(row=0,column=0,padx=20,pady=20,sticky="ew")
+        self.add_button.grid(row=1,column=1,padx=20,pady=20,sticky="w")
         
         self.refresh_tasks()
         
     def refresh_tasks(self):
         for widget in self.winfo_children():
-            if widget != self.add_button:
+            if widget != self.add_button and widget != self.title_label and widget != self.tasks:
                 widget.destroy()
-        tresc_zadan,daty_zadan,isdone=read_the_data.load_task_from_csv()
-        
-        for index,(tresc,data) in enumerate(zip(tresc_zadan,daty_zadan,isdone)):
-
-            # Isdone? if 1 kasacja bo continue w for
-            if int(isdone) == 1:
-                continue
-
-
+        tresc_zadan,daty_zadan=read_the_data.load_task_from_csv()
+        for index,(tresc,data) in enumerate(zip(tresc_zadan,daty_zadan)):
             full_text=f"{tresc}  | Termin: {data}"
-            checkbox=customtkinter.CTkCheckBox(self, text=full_text,command=)
-
-            checkbox.grid(row=index+1,column=0,padx=20,pady=5,sticky="w")
+            checkbox=customtkinter.CTkCheckBox(self.tasks, text=full_text)
+            checkbox.pack(padx=5,pady=5, fill="x")
             
     def add_task_action(self):
         add_task.add_task_Ui()
         self.refresh_tasks()
         
-    
-    # - - - -- - - - - - - Funkcje od Oliveiera
-    def delete_line(old_file, tresc):
-        with open(old_file, 'r') as old, open('temp.txt', 'w') as temp:
-            for linia in old:
-                if linia.strip() != tresc:
-                    temp.write(linia)
-
-            os.replace('temp.txt', old_file)
-    
-
-
         #teraz przycisk
         #trzeba zrobic przycisk zeby polaczyc go z add task
         #plus tam ustawcie jakies ladne kolorki 
@@ -91,6 +79,8 @@ if __name__=="__main__":
 
 
 
+
+
 #to bylo
 """#funkcja na przycisk - z tutorialu
 def button_callback():
@@ -101,7 +91,7 @@ def button_callback():
 app=customtkinter.CTk()
 app.title("To-Do app")
 app.geometry("1200x800")
-title_font=customtkinter.CTkFont(weight="bold",size=24)
+
 
 
 
