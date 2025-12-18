@@ -4,7 +4,7 @@ Created on Wed Dec 17 17:35:25 2025
 
 @author: hubki
 """
-
+import read_the_data
 import customtkinter
 import add_task
 
@@ -22,7 +22,27 @@ class App(customtkinter.CTk): #moja klasa dziedziczy po klasie CTk
        #siatka dynamiczna - zmieniajcie jak chcecie
         self.grid_columnconfigure((0,1,2), weight=1) #dla kolumn 1,2,3 waga = 1 czyli kolumna zabierze cala wolna przestrzen
         self.grid_rowconfigure((0,1,2), weight=1)
-
+        
+        #przycisk dodaj
+        self.add_button=customtkinter.CTkButton(self, text="Dodaj Zadanie",command=self.add_task_action)
+        self.add_button.grid(row=0,column=0,padx=20,pady=20,sticky="ew")
+        
+        self.refresh_tasks()
+        
+    def refresh_tasks(self):
+        for widget in self.winfo_children():
+            if widget != self.add_button:
+                widget.destroy()
+        tresc_zadan,daty_zadan=read_the_data.load_task_from_csv()
+        for index,(tresc,data) in enumerate(zip(tresc_zadan,daty_zadan)):
+            full_text=f"{tresc}  | Termin: {data}"
+            checkbox=customtkinter.CTkCheckBox(self, text=full_text)
+            checkbox.grid(row=index+1,column=0,padx=20,pady=5,sticky="w")
+            
+    def add_task_action(self):
+        add_task.add_task_Ui()
+        self.refresh_tasks()
+        
         #teraz przycisk
         #trzeba zrobic przycisk zeby polaczyc go z add task
         #plus tam ustawcie jakies ladne kolorki 
@@ -31,9 +51,9 @@ class App(customtkinter.CTk): #moja klasa dziedziczy po klasie CTk
         #self.button = customtkinter.CTkButton(self, text="add task", #fg_color=, hover_color, command) 
         #self.button.grid(row=, column=, padx=, pady=, sticky=, columnspan albo i nie) 
 
-    
-app = App()
-app.mainloop()
+if __name__=="__main__":
+    app = App()
+    app.mainloop()
 
 
 
