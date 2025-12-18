@@ -17,6 +17,7 @@ Do dodania zapis do CSV
 def add_task_Ui():
     dialog=customtkinter.CTkInputDialog(text="Wpisz nazwe zadania")
     text_tresc=dialog.get_input()
+    #NIE DZIALA NIE DA SIE DODAC DATY
     dialog_date=customtkinter.CTkInputDialog(text="Wpisz data ukończenia zadania")
     text_date=dialog_date.get_input()
     if text_tresc and text_date:
@@ -26,7 +27,6 @@ def add_task_Ui():
             # Zapisujemy wiersz z danymi
             writer.writerow([text_tresc, text_date, datetime.datetime.now().strftime("%Y-%m-%d %H:%M")]) 
     return text_tresc,text_date
-    
+
 
 add_task_Ui()
-

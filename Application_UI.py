@@ -6,6 +6,7 @@ Created on Wed Dec 17 17:35:25 2025
 """
 
 import customtkinter
+import add_task
 
 #kod przerobiony na klasy 
 class App(customtkinter.CTk): #moja klasa dziedziczy po klasie CTk
@@ -13,33 +14,23 @@ class App(customtkinter.CTk): #moja klasa dziedziczy po klasie CTk
         super().__init__() #super odnosi sie do rodzica (czyli tu customtkinter.CTk)
         #i ta linijka wyzej uruchamia kod startowy biblioteki, a pozniej dodaje moje ustawienia
 
-       
-        #dalsze ustawienia sa moje
+        
+        #dalsze ustawienia 
         self.title("To-Do app")
         self.geometry("1200x800")
-        self.grid_columnconfigure(0, weight=1)
-        self.grid_rowconfigure(0, weight=1)
-
-        #frames
-        self.checkbox_frame = customtkinter.CTkFrame(self)
-        self.checkbox_frame.grid(row=1, column=0, padx=10, pady=(10, 10), sticky="nsw", rowspan=3)
-
-
-        #ckeckboxy
-        self.checkbox_1 = customtkinter.CTkCheckBox(self, text="checkbox 1")
-        self.checkbox_1.grid(row=0, column=0, padx=10, pady=(10, 0), sticky="w") #w to west czyli bedzie tylko po lewej
-        self.checkbox_2 = customtkinter.CTkCheckBox(self, text="checkbox 2")
-        self.checkbox_2.grid(row=1, column=0, padx=10, pady=(10, 0), sticky="w")
+       
+       #siatka dynamiczna - zmieniajcie jak chcecie
+        self.grid_columnconfigure((0,1,2), weight=1) #dla kolumn 1,2,3 waga = 1 czyli kolumna zabierze cala wolna przestrzen
+        self.grid_rowconfigure((0,1,2), weight=1)
 
         #teraz przycisk
-        #dodajac self przycisk staje sie wlasnoscia calego obiektu, nie jest sprzatany z pamieci pozniej
-        self.button = customtkinter.CTkButton(self, text="my button", command=self.button_callback) 
-        self.button.grid(row=0, column=0, padx=10, pady=10, sticky="n", columnspan=2) #ew to east/west wiec sie rozciagnie sie od lewej do prawej
+        #trzeba zrobic przycisk zeby polaczyc go z add task
+        #plus tam ustawcie jakies ladne kolorki 
+        #a pozniej go ustawcie gdzie ladnie na tej siatce pierdolonej
 
+        #self.button = customtkinter.CTkButton(self, text="add task", #fg_color=, hover_color, command) 
+        #self.button.grid(row=, column=, padx=, pady=, sticky=, columnspan albo i nie) 
 
-    #funkcja dla przycisku
-    def button_callback(self):
-        print("button pressed")
     
 app = App()
 app.mainloop()
